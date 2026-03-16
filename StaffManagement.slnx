@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="StaffManagement/StaffManagement.vcxproj" />
+  <Project Path="StaffManagement/StaffManagement.vcxproj" Id="df502b75-73ac-40e0-b9ba-8ea6e5159a6c" />
 </Solution>
