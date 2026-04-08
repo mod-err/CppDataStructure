@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include <vector>
 #include "identity.h"
+#include "computerRoom.h"
 
 using namespace std;
 
@@ -19,6 +21,8 @@ public:
 	void showAllOrder();
 	//取消预约
 	void cancelOrder();
+	//机房容器
+	vector<ComputerRoom> vCom;
 	//学号
 	int m_Id;
 };
