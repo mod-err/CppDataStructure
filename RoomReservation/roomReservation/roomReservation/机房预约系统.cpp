@@ -12,6 +12,8 @@ using namespace std;
 void LoginIn(string filename, int type);
 //管理员菜单
 void ManagerMenu(Identity* person);
+//学生菜单
+void StudentMenu(Identity* person);
 
 int main() {
 
@@ -112,6 +114,7 @@ void LoginIn(string filename, int type) {
                 //创建学生对象，进入学生操作界面
                 person = new Student(id, name, pwd);
 
+                StudentMenu(person);
 
                 //终止登录函数的执行
                 return;
@@ -194,6 +197,51 @@ void ManagerMenu(Identity* person) { //拷贝指针变量本身
         case 4:
             //清空预约记录
             manager->cleanFile();
+            break;
+        case 0:
+            //注销登录
+            cout << "注销登录成功！" << endl;
+            system("pause");
+            system("cls");
+            return;
+            break;
+        default:
+            cout << "输入有误，请重新输入！" << endl;
+            system("pause");
+            system("cls");
+            break;
+        }
+    }
+}
+
+//学生菜单
+void StudentMenu(Identity* person) {
+    
+    int select = 0;
+
+    while (true) {
+        person->operMenu();
+
+        Student* student = (Student*)person;
+
+        cin >> select;
+
+        switch (select) {
+        case 1:
+            //申请预约
+            student->applyOrder();
+            break;
+        case 2:
+            //查看自身预约
+            student->showMyOrder();
+            break;
+        case 3:
+            //查看所有预约
+            student->showAllOrder();
+            break;
+        case 4:
+            //取消预约
+            student->cancelOrder();
             break;
         case 0:
             //注销登录
