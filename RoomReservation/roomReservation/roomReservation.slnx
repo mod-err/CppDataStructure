@@ -1,7 +1,0 @@
-<Solution>
-  <Configurations>
-    <Platform Name="x64" />
-    <Platform Name="x86" />
-  </Configurations>
-  <Project Path="roomReservation/roomReservation.vcxproj" Id="3d6a3ec0-5d39-45b7-ab8b-3f0b08f9fbe0" />
-</Solution>
