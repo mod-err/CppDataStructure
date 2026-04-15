@@ -7,9 +7,20 @@ void Reverse(int arr[], int len) {
 	int* p = arr;
 	int* q = arr + len - 1;
 	while (p < q) {
-		char ch = *p;
+		int temp = *p;
 		*p = *q;
-		*q = ch;
+		*q = temp;
+		p++;
+		q--;
+	}
+}
+void Reverse1(int arr[], int len) {
+	int p = 0;
+	int q = len - 1;
+	while (p < q) {
+		int temp = arr[p];
+		arr[p] = arr[q];
+		arr[q] = temp;
 		p++;
 		q--;
 	}
@@ -21,7 +32,7 @@ void test1() {
 		arr[i] = i;
 	}
 
-	Reverse(arr, 10);
+	Reverse1(arr, 10);
 	for (int i = 0; i < 10; i++) {
 		cout << arr[i] << " ";
 	}
@@ -33,13 +44,15 @@ void AdjustArr(int arr[], int len) {
 	int* p = arr;
 	int* q = arr + len - 1;
 	while (p < q) {
-		//奇数
-		if ((*p & 0x1) == 1) {
-			
+		//如果是奇数跳过if
+		if ((*p & 0x1) == 0) {
+			p++;
+			continue;
 		}
-		//偶数
-		if ((*q & 0x1) == 0) {
-			
+		//如果是偶数跳过if
+		if ((*q & 0x1) == 1) {
+			q--;
+			continue;
 		}
 		int temp = *p;
 		*p = *q;
@@ -50,5 +63,16 @@ void AdjustArr(int arr[], int len) {
 }
 
 int main() {
-	
+	test1();
+
+	int arr[10];
+	for (int i = 0; i < 10; i++) {
+		arr[i] = i;
+	}
+
+	AdjustArr(arr, 10);
+	for (int i = 0; i < 10; i++) {
+		cout << arr[i] << " ";
+	}
+	cout << endl;
 }
