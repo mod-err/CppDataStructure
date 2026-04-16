@@ -65,6 +65,35 @@ public:
 			}
 		}
 	}
+	//链表节点删除--多个节点
+	void removeAll(int val) {
+		Node* q = head_; //指向p的前一个节点
+		Node* p = head_->next_;
+		while (p != nullptr) {
+			if (p->data_ == val) {
+				q->next_ = p->next_;
+				delete p;
+				p = q->next_;
+			}
+			else {
+				p = p->next_;
+				q = q->next_;
+			}
+		}
+	}
+	//查找节点 O(n)
+	bool find(int val) {
+		Node* p = head_->next_;
+		while (p != nullptr) {
+			if (p->data_ == val) {
+				return true;
+			}
+			else {
+				p = p->next_;
+			}
+		}
+		return false;
+	}
 	//打印链表
 	void show() {
 		Node* p = head_->next_;
@@ -92,4 +121,14 @@ int main() {
 	cout << "删除节点：" << endl;
 	link.remove(5);
 	link.show();
+
+	cout << "删除所有符合条件的节点：" << endl;
+	link.insertTail(3);
+	link.insertHead(3);
+	link.show();
+	link.removeAll(3);
+	link.show();
+
+	cout << "查找'6'" << endl;
+	cout << link.find(6) << endl;;
 }
