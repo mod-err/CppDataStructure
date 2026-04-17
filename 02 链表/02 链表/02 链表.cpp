@@ -12,6 +12,8 @@ struct Node {
 
 //链表类
 class Clink {
+	friend void reverseLink(Clink& link);
+	friend bool getLastNode(Clink& link, int k, int& val);
 public:
 	Clink() {
 		//给head_初始化指向头节点
@@ -107,6 +109,61 @@ private:
 	Node* head_; //指向链表头节点
 };
 
+//元素逆序
+void reverseLink(Clink& link) {
+	Node* p = link.head_->next_; //指向链表第一个节点
+	link.head_->next_ = nullptr;
+
+	while (p != nullptr) {
+		Node* q = p->next_;
+		//头插法
+		p->next_ = link.head_->next_;
+		link.head_->next_ = p;
+		//同步p和q
+		p = q;
+	}
+}
+
+//求倒数第k个节点的值 - 时间复杂度O(n)
+bool getLastNode(Clink& link, int k, int& val) {
+	//检测非法k
+	if (k < 1) return false;
+
+	Node* pre = link.head_;
+	Node* p = link.head_;
+
+	while (k != 0) {
+		p = p->next_;
+		k--;
+		if (p == nullptr) return false;
+	}
+	while (p != nullptr) {
+		p = p->next_;
+		pre = pre->next_;
+	}
+	val = pre->data_;
+	return true;
+}
+
+int main() {
+	Clink link;
+	for (int i = 0; i < 10; i++) {
+		link.insertTail(i);
+		cout << i << " ";
+	}
+	cout << endl;
+
+	cout << "逆序后：" << endl;
+	reverseLink(link);
+	link.show();
+
+	int val = -1;
+	if (getLastNode(link, 0, val)) {
+		cout << val << endl;
+	}
+}
+
+#if 0
 int main() {
 	Clink link;
 	for (int i = 0; i < 10; i++) {
@@ -132,3 +189,4 @@ int main() {
 	cout << "查找'6'" << endl;
 	cout << link.find(6) << endl;;
 }
+#endif
