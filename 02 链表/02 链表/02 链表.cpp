@@ -14,6 +14,7 @@ struct Node {
 class Clink {
 	friend void reverseLink(Clink& link);
 	friend bool getLastNode(Clink& link, int k, int& val);
+	friend void MergeLink(Clink& link1, Clink& link2);
 public:
 	Clink() {
 		//给head_初始化指向头节点
@@ -145,6 +146,58 @@ bool getLastNode(Clink& link, int k, int& val) {
 	return true;
 }
 
+//合并有序链表
+void MergeLink(Clink& link1, Clink& link2) {
+	Node* p = link1.head_->next_;
+	Node* q = link2.head_->next_;
+
+	Node* last = link1.head_;
+	//清空link2的头节点，避免析构时重复释放内存
+	link2.head_->next_ = nullptr;
+
+	//p或q只要有一个为空停止循环
+	while (p != nullptr && q != nullptr) {
+		if (p->data_ > q->data_) {
+			last->next_ = q;
+			q = q->next_;
+			last = last->next_;
+		}
+		else {
+			last->next_ = p;
+			p = p->next_;
+			last = last->next_;
+		}
+	}
+
+	if (p == nullptr) {
+		last->next_ = q;
+	}
+	else{
+		last->next_ = p;
+	}
+}
+
+int main() {
+	Clink link1;
+	Clink link2;
+
+	int arr1[] = { 25, 37, 52, 78 };
+	int arr2[] = { 13, 23, 40 };
+
+	for (int i : arr1) {
+		link1.insertTail(i);
+	}
+	link1.show();
+	for (int i : arr2) {
+		link2.insertTail(i);
+	}
+	link2.show();
+
+	MergeLink(link1, link2);
+	link1.show();
+}
+
+#if 0
 int main() {
 	Clink link;
 	for (int i = 0; i < 10; i++) {
@@ -162,6 +215,7 @@ int main() {
 		cout << val << endl;
 	}
 }
+#endif
 
 #if 0
 int main() {
