@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿ #include <iostream>
 
 using namespace std;
 
@@ -28,7 +28,6 @@ public:
 			p = head_;
 		}
 		head_ = nullptr;
-		
 	}
 public:
 	//链表尾插法 O(n)
@@ -177,6 +176,118 @@ void MergeLink(Clink& link1, Clink& link2) {
 	}
 }
 
+//单链表环以及环入口
+bool isLinkHasCircle(Node& head, int& val) {
+	Node* fast = &head;
+	Node* slow = &head;
+
+	//确保指针可以走两步
+	while (fast != nullptr && fast->next_ != nullptr) {
+		slow = slow->next_;
+		fast = fast->next_->next_;
+		//快指针可以赶上慢指针
+		if (fast == slow) {
+			fast = &head;
+			while (fast != slow) {
+				fast = fast->next_;
+				slow = slow->next_;
+			}
+			val = fast->data_;
+			return true;
+		}
+	}
+	return false;
+}
+
+//判断两个链表是否相交
+bool isLinkHasMerge(Node* head1, Node* head2, int* val) {
+	int cnt1 = 0, cnt2 = 0;
+	int offset = 0; //链表长度差值
+	Node* p = head1->next_;
+	Node* q = head2->next_;
+
+	while (p != nullptr) {
+		p = p->next_;
+		cnt1++;
+	}
+	while (q != nullptr) {
+		q = q->next_;
+		cnt2++;
+	}
+
+	p = head1->next_;
+	q = head2->next_;
+	//比较链表长度
+	if (cnt1 > cnt2) {
+		offset = cnt1 - cnt2;
+		while (offset != 0) {
+			p = p->next_;
+			offset--;
+		}
+	}
+	else {
+		offset = cnt2 - cnt1;
+		while (offset != 0) {
+			q = q->next_;
+			offset--;
+		}
+	}
+	//p或q只要有一个为空停止循环
+	while (p != nullptr && q != nullptr) {
+		if (p == q) {
+			*val = p->data_;
+			return true;
+		}
+		p = p->next_;
+		q = q->next_;
+	}
+	return false;
+}
+
+int main() {
+	Node head1;
+	Node n1(25), n2(10), n3(48), n4(72), n5(12), n6(52);
+	Node head2;
+	Node n7(13), n8(90);
+
+	head1.next_ = &n1;
+	n1.next_ = &n2;
+	n2.next_ = &n3;
+	n3.next_ = &n4;
+	n4.next_ = &n5;
+	n5.next_ = &n6;
+
+	head2.next_ = &n7;
+	n7.next_ = &n8;
+	n8.next_ = &n4;
+
+	int val;
+	if (isLinkHasMerge(&head1, &head2, &val)) {
+		cout << "两个链表存在交点，交点是：" << val << endl;
+	}
+}
+
+#if 0
+int main() {
+	Node head;
+	Node n1(25), n2(10), n3(48), n4(72), n5(12), n6(52);
+
+	head.next_ = &n1;
+	n1.next_ = &n2;
+	n2.next_ = &n3;
+	n3.next_ = &n4;
+	n4.next_ = &n5;
+	n5.next_ = &n6;
+	n6.next_ = &n3;
+
+	int val;
+	if (isLinkHasCircle(head, val)) {
+		cout << "链表存在环，环的入口节点是：" << val << endl;
+	}
+}
+#endif
+
+#if 0
 int main() {
 	Clink link1;
 	Clink link2;
@@ -196,6 +307,7 @@ int main() {
 	MergeLink(link1, link2);
 	link1.show();
 }
+#endif
 
 #if 0
 int main() {
