@@ -1,0 +1,36 @@
+# 永久忽略不需要的项目文件夹
+CplusAdvanced/
+CplusBasic/
+CplusCore/
+RoomReservation/
+SpeechContest/
+StaffManagement/
+
+# C++项目通用忽略规则（推荐添加，避免编译文件误推）
+*.vs/
+*.vcxproj.user
+*.suo
+*.user
+Debug/
+Release/
+x64/
+x86/
+.vs/
+
+# Visual Studio 自动生成的配置文件
+*.suo
+*.user
+.vs/
+
+# 编译生成的文件夹（Debug/Release）
+Debug/
+Release/
+x64/
+
+# 编译生成的二进制文件
+*.exe
+*.pdb
+*.ilk
+*.obj
+*.tlog
+*.log
