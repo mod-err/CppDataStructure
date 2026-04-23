@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="04 双向链表.vcxproj" Id="87e2fb26-f67f-47a0-9754-bef67196b898" />
+  <Project Path="05 双向循环链表/05 双向循环链表.vcxproj" />
 </Solution>
