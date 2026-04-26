@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="07 链式栈.vcxproj" />
+  <Project Path="07 链式栈.vcxproj" Id="554c6406-27b5-4cf3-8160-1b08d2c9b64d" />
 </Solution>
