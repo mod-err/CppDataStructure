@@ -1,4 +1,4 @@
-﻿#include <iostream>
+﻿  #include <iostream>
 
 using namespace std;
 
@@ -75,9 +75,8 @@ private:
 		pQue = p;
 		cap_ = size;
 
-		cout << front_ << " " << rear_ <<endl;
-		//front_ = 0; 
-		//rear_ = size_;
+		front_ = 0; 
+		rear_ = size_;
 	}
 };
 
@@ -98,11 +97,18 @@ void expendTest() {
 	cout << "队列的大小为：" << q.size() << endl;
 	cout << "队头：" << q.front_ << " 队尾：" << q.rear_ << endl;
 
-	int arr[] = { 10 };
-	for (int i : arr) {
+	int arrex[] = { 10, 11, 12, 13, 14, 15 };
+	for (int i : arrex) {
 		q.push(i);
 	}
+	cout << "队列的大小为：" << q.size() << endl;
+	cout << "队头：" << q.front_ << " 队尾：" << q.rear_ << endl;
 
+	//队列的大小为：13
+	//队头：3 队尾：6
+
+	//队列的大小为：13
+	//队头：0 队尾：13
 }
 
 int main() {
