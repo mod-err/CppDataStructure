@@ -38,6 +38,44 @@ void ChoiceSort(int arr[], int size) {
 	}
 }
 
+//插入排序 - 时间复杂度：最坏、平均：O(n^2) 最好：O(n) - 空间复杂度：O(1) - 稳定性：稳定
+void InsertSort(int arr[], int size) {
+	for (int i = 0; i < size - 1; i++) {
+		int tmp = arr[i + 1];
+		int j = i;
+		//一趟排序：第i趟排序比较i+1次
+		for (; j >= 0; j--) {
+			if (tmp < arr[j]) {
+				arr[j + 1] = arr[j];
+			}
+			else {
+				break;
+			}
+		}
+		arr[j + 1] = tmp;
+	}
+}
+
+//希尔排序
+void ShellSort(int arr[], int size) {
+	for (int gap = size / 2; gap > 0; gap = gap / 2) {
+		for (int i = 0; i < gap - 1; i++) {
+			int tmp = arr[i + 1];
+			int j = i;
+			//一趟排序：第i趟排序比较i+1次
+			for (; j >= 0; j--) {
+				if (tmp < arr[j]) {
+					arr[j + 1] = arr[j];
+				}
+				else {
+					break;
+				}
+			}
+			arr[j + 1] = tmp;
+		}
+	}
+}
+
 int main() {
 	int arr[10];
 	srand(time(NULL));
@@ -48,7 +86,7 @@ int main() {
 	}
 	cout << endl;
 
-	ChoiceSort(arr, sizeof(arr) / sizeof(arr[0]));
+	InsertSort(arr, sizeof(arr) / sizeof(arr[0]));
 
 	for (int i : arr) {
 		cout << i << " ";
