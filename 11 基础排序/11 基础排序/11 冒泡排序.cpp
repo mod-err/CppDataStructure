@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <time.h>
 
 using namespace std;
@@ -42,7 +42,7 @@ void ChoiceSort(int arr[], int size) {
 void InsertSort(int arr[], int size) {
 	for (int i = 0; i < size - 1; i++) {
 		int tmp = arr[i + 1];
-		int j = i;
+		int j = i; //待比较的前一个元素
 		//一趟排序：第i趟排序比较i+1次
 		for (; j >= 0; j--) {
 			if (tmp < arr[j]) {
@@ -56,22 +56,24 @@ void InsertSort(int arr[], int size) {
 	}
 }
 
-//希尔排序
+//希尔排序 - 时间复杂度：平均：O(n^1.3) 最坏：O(n^2) 最好：O(n) - 空间复杂度：O(1) - 稳定性：不稳定
 void ShellSort(int arr[], int size) {
+	//分组数 gap = 5 2 1
 	for (int gap = size / 2; gap > 0; gap = gap / 2) {
-		for (int i = 0; i < gap - 1; i++) {
-			int tmp = arr[i + 1];
-			int j = i;
-			//一趟排序：第i趟排序比较i+1次
-			for (; j >= 0; j--) {
+		// 内层循环：对每个分组做直接插入排序
+		for (int i = gap; i < size; i++) {
+			int tmp = arr[i];
+			int j = i - gap; //待比较的前一个元素
+			//一趟排序：从后往前比较
+			for (; j >= 0; j = j - gap) {
 				if (tmp < arr[j]) {
-					arr[j + 1] = arr[j];
+					arr[j + gap] = arr[j];
 				}
 				else {
 					break;
 				}
 			}
-			arr[j + 1] = tmp;
+			arr[j + gap] = tmp;
 		}
 	}
 }
@@ -86,7 +88,7 @@ int main() {
 	}
 	cout << endl;
 
-	InsertSort(arr, sizeof(arr) / sizeof(arr[0]));
+	ShellSort(arr, sizeof(arr) / sizeof(arr[0]));
 
 	for (int i : arr) {
 		cout << i << " ";
