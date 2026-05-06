@@ -79,6 +79,47 @@ void ShellSort(int arr[], int size) {
 }
 
 int main() {
+	int COUNT = 100000;
+	int* arr = new int[COUNT];
+	int* brr = new int[COUNT];
+	int* crr = new int[COUNT];
+	int* drr = new int[COUNT];
+
+	srand(time(NULL));
+
+	for (int i = 0; i < COUNT; i++) {
+		int val = rand() % COUNT;
+		arr[i] = val;
+		brr[i] = val;
+		crr[i] = val;
+		drr[i] = val;
+	}
+
+	clock_t begin, end;
+
+	begin = clock();
+	BubbleSort(arr, COUNT);
+	end = clock();
+	cout << "BubbleSort spend: " << (end - begin) * 1.0 / CLOCKS_PER_SEC << "s" << endl;
+
+	begin = clock();
+	ChoiceSort(brr, COUNT);
+	end = clock();
+	cout << "ChoiceSort spend: " << (end - begin) * 1.0 / CLOCKS_PER_SEC << "s" << endl;
+
+	begin = clock();
+	InsertSort(crr, COUNT);
+	end = clock();
+	cout << "InsertSort spend: " << (end - begin) * 1.0 / CLOCKS_PER_SEC << "s" << endl;
+
+	begin = clock();
+	ShellSort(drr, COUNT);
+	end = clock();
+	cout << "ShellSort spend: " << (end - begin) * 1.0 / CLOCKS_PER_SEC << "s" << endl;
+}
+
+#if 0
+int main() {
 	int arr[10];
 	srand(time(NULL));
 
@@ -95,3 +136,4 @@ int main() {
 	}
 	cout << endl;
 }
+#endif
