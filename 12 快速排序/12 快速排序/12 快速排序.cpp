@@ -9,24 +9,22 @@ int Partition(int arr[], int l, int r) {
 	int val = arr[l];
 
 	while (l < r) {
-		while (arr[r] >= val) {
+		while (l < r && arr[r] > val) {
 			r--;
 		}
 		if (l < r) {
-			arr[r] = val;
+			arr[l] = arr[r];
 			l++;
 		}
-		while (arr[l] <= val) {
+		while (l < r && arr[l] < val) {
 			l++;
 		}
 		if (l < r) {
-			arr[l] = val;
+			arr[r] = arr[l];
 			r--;
 		}
 	}
-	if (l == r) {
-		arr
-	}
+	arr[l] = val;
 	return l;
 }
 
