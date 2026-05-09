@@ -3,12 +3,37 @@
 
 using namespace std;
 
+//插入排序
+void InsertSort(int arr[], int begin, int end) {
+	for (int i = 0; i < (end - begin); i++) {
+		int tmp = arr[i + 1];
+		int j = i;
+		for (; j >= 0; j--) {
+			if (tmp < arr[j]) {
+				arr[j + 1] = arr[j];
+			}
+			else {
+				break;
+			}
+		}
+		arr[j + 1] = tmp;
+	}
+}
+
 //分区函数：返回基准数下标
 int Partition(int arr[], int l, int r) {
 
+	//优化2：采用[三数取中法]选取基准数
+	int mid = (l + r) / 2;
+	if (arr[l] > arr[mid]) swap(arr[l], arr[mid]);
+	if (arr[l] > arr[r]) swap(arr[l], arr[r]);
+	if (arr[mid] > arr[r]) swap(arr[mid], arr[r]);
+
+	//选取基准数
 	int val = arr[l];
 
 	while (l < r) {
+		//只有[大于]基准数组才会被跳过，[小于/等于]会被移动
 		while (l < r && arr[r] > val) {
 			r--;
 		}
@@ -16,6 +41,7 @@ int Partition(int arr[], int l, int r) {
 			arr[l] = arr[r];
 			l++;
 		}
+		//只有[小于于]基准数组才会被跳过，[大于/等于]会被移动
 		while (l < r && arr[l] < val) {
 			l++;
 		}
@@ -34,6 +60,11 @@ void QuickSort(int arr[], int begin, int end) {
 	if (begin >= end) {
 		return;
 	}
+	//优化1：当[begin, end]区间数据小到一定规模，采用插入排序
+	if (end - begin <= 500) {
+		InsertSort(arr, begin, end);
+		return;
+	}
 	//在[begin, end]区间进行分区处理
 	int pos = Partition(arr, begin, end);
 	//对左边和右边分别进行快排
@@ -46,6 +77,30 @@ void QuickSort(int arr[], int size) {
 	return QuickSort(arr, 0, size - 1);
 }
 
+int main() {
+	int COUNT = 100000;
+	int* arr = new int[COUNT];
+	int* brr = new int[COUNT];
+	int* crr = new int[COUNT];
+	int* drr = new int[COUNT];
+
+	srand(time(NULL));
+
+	for (int i = 0; i < COUNT; i++) {
+		int val = rand() % COUNT;
+		arr[i] = val;
+	}
+
+	clock_t begin, end;
+
+	begin = clock();
+	QuickSort(arr, COUNT);
+	end = clock();
+	cout << "BubbleSort spend: " << (end - begin) * 1.0 / CLOCKS_PER_SEC << "s" << endl;
+}
+
+
+#if 0
 int main() {
 	int arr[10];
 	srand(time(NULL));
@@ -63,3 +118,4 @@ int main() {
 	}
 	cout << endl;
 }
+#endif
