@@ -33,7 +33,7 @@ public:
 	void push(int val) {
 		//扩容
 		if (size_ == cap_) {
-		
+			expand(2 * cap_);
 		}
 		//只有一个元素，直接入堆
 		if (size_ == 0) {
@@ -46,52 +46,65 @@ public:
 	}
 	// 出堆操作
 	void pop() {
-		if (size == 0) {
+		if (size_ == 0) {
 			throw "PriorityQueue is empty!";
 		}
 		size_--;
 		if (size_ > 0) {
-			siftDown(0, size_);
+			siftDown(0, que_[size_]);
 		}
 	}
-	//
+	//查看堆顶
+	int top() const
+	{
+		if (size_ == 0)
+			throw "container is empty!";
+		return que_[0];
+	}
 	//队列是否空
 	bool empty() {
-	
+		return size_ == 0;
 	}
 	//大小
 	int size() {
-	
+		return size_;
 	}
 private:
-	void Siftup(int i, int val) {
-		while (i > 0) {
-			int father = (i - 1) / 2;
-			if (comp_(val, que_[father])) {
-				que_[i] = que_[father];
-				i = father;
-			}
-			else {
-				break;
-			}
+void Siftup(int i, int val) {
+	while (i > 0) {
+		int father = (i - 1) / 2;
+		if (comp_(val, que_[father])) {
+			que_[i] = que_[father];
+			i = father;
 		}
-		que_[i] = val;
+		else {
+			break;
+		}
 	}
-	void siftDown(int i, int val) {
-		while (i < size_ / 2) {
-			int child = 2 * i + 1; //i节点的左孩子
-			if (comp_(que_[child + 1], que_[child])) {
-				child = child + 1;
-			}
-			if (comp_(que_[child], val)) {
-				que_[i] = que_[child];
-				i = child;
-			}
-			else {
-				break;
-			}
+	que_[i] = val;
+}
+void siftDown(int i, int val) {
+	while (i <= (size_-1) / 2) {
+		int child = 2 * i + 1; //i节点的左孩子
+		if (comp_(que_[child + 1], que_[child])) {
+			child = child + 1;
 		}
-		que_[i] = val;
+		if (comp_(que_[child], val)) {
+			que_[i] = que_[child];
+			i = child;
+		}
+		else {
+			break;
+		}
+	}
+	que_[i] = val;
+}
+	void expand(int newCapacity) {
+		int* p = new int[newCapacity];
+		memcpy(p, que_, cap_ * sizeof(int));
+		delete[] que_;
+		que_ = p;
+		cap_ = newCapacity;
 	}
 private:
 	int* que_; //指向动态扩容的数组
@@ -101,5 +114,20 @@ private:
 };
 
 int main() {
+	//小根堆
+	PriorityQueue q = PriorityQueue(less<int>());
 
+	int arr[] = { 90, 28, 12, 1, 8, 46, 39 };
+	for (int v : arr) {
+		q.push(v);
+	}
+	cout << "堆的大小为：" << q.size() << endl;
+
+	while (!q.empty()) {
+		cout << q.top() << " ";
+		q.pop();
+	}
+	cout << endl;
+
+	cout << "堆的大小为：" << q.size() << endl;
 }
