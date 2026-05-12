@@ -22,7 +22,6 @@ void SiftDown(int arr[], int i, int n) {
 	}
 	arr[i] = val;
 }
-
 //堆排序
 void HeapSort(int arr[], int size) {
 	//末尾元素下标
@@ -31,12 +30,8 @@ void HeapSort(int arr[], int size) {
 	for (int i = (n - 1) / 2; i >= 0; i--) {
 		SiftDown(arr, i, n);
 	}
-
 	for (int i = n; i > 0; i--) {
-		int tmp = arr[0];
-		arr[0] = arr[i];
-		arr[i] = tmp;
-
+		swap(arr[0], arr[i]);
 		SiftDown(arr, 0, i - 1);//i-1参与调整的元素个数
 	}
 }
