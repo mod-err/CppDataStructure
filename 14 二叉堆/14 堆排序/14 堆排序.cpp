@@ -84,7 +84,7 @@ void Siftup(int i, int val) {
 	que_[i] = val;
 }
 void siftDown(int i, int val) {
-	while (i <= (size_-1) / 2) {
+	while (i * 2 + 1 <= size_) {
 		int child = 2 * i + 1; //i节点的左孩子
 		if (comp_(que_[child + 1], que_[child])) {
 			child = child + 1;

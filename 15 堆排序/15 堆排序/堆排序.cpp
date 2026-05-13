@@ -1,5 +1,6 @@
 ﻿#include <iostream>
-#include "time.h"
+#include <algorithm>
+#include <ctime>
 
 using namespace std;
 
@@ -7,7 +8,7 @@ using namespace std;
 void SiftDown(int arr[], int i, int n) {
 	int val = arr[i];
 	//n为末尾元素下标
-	while (i <= (n - 1) / 2) {
+	while (2 * i + 1 <= n) {
 		int child = 2 * i + 1;
 		if (child + 1 <= n && arr[child + 1] > arr[child]) {
 			child = child + 1;
@@ -32,7 +33,7 @@ void HeapSort(int arr[], int size) {
 	}
 	for (int i = n; i > 0; i--) {
 		swap(arr[0], arr[i]);
-		SiftDown(arr, 0, i - 1);//i-1参与调整的元素个数
+		SiftDown(arr, 0, i - 1);//i-1参与调整的元素下标
 	}
 }
 
