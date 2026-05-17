@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 #include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -51,15 +52,52 @@ public:
 	}
 	//删除
 	void erase(int key) {
-	
+		int idx = key % table_.size();
+
+		//auto = list<int>::iterator自动类型推导迭代器类型
+		auto it = ::find(table_[idx].begin(), table_[idx].end(), key);
+		if (it != table_[idx].end()) {
+			//删除该位置数据
+			table_[idx].erase(it);
+			if (table_[idx].empty()) {
+				useBucketNum_--;
+			}
+		}
 	}
 	//查找
 	int find(int key) {
-	
+		int idx = key % table_.size();
+
+		//auto = list<int>::iterator自动类型推导迭代器类型
+		auto it = ::find(table_[idx].begin(), table_[idx].end(), key);
+		if (it != table_[idx].end()) {
+			return true;
+		}
+		return false;
 	}
 private:
 	void expand() {
-	
+		primeIdx_++;
+		if (primeIdx_ == PRIME_SIZE) {
+			throw "hashtable can not expand anymore!";
+		}
+		//清空桶的使用记录
+		useBucketNum_ = 0;
+
+		vector<list<int>> oldTable;
+		table_.swap(oldTable);
+		table_.resize(primes_[primeIdx_]);
+
+		for (auto list : oldTable) {
+			for (auto key : list) {
+				int idx = key % table_.size();
+				if (table_[idx].empty()) {
+					useBucketNum_++;
+				}
+				table_[idx].push_back(key);
+			}
+		}
+
 	}
 private:
 	vector<list<int>> table_;  //哈希表的数据结构
@@ -74,7 +112,25 @@ private:
 int HashTable::primes_[PRIME_SIZE] = { 3, 7, 23, 47, 97, 251, 443, 911, 1471, 42773 };
 
 int main() {
+	HashTable htable;
+	htable.insert(21);
+	htable.insert(32);
+	htable.insert(14);
+	htable.insert(15);
 
+	htable.insert(22);
+
+	htable.insert(67);
+	htable.insert(67);
+	htable.insert(67);
+
+	cout << htable.find(67) << endl;
+	htable.erase(67);
+	htable.erase(67);
+	htable.erase(67);
+	cout << htable.find(67) << endl;
+
+	return 0;
 }
 
 
