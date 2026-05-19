@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="23 大数据top k-大小根堆.vcxproj" Id="88644038-08e9-4ebe-96ca-260d69f0dfd7" />
+  <Project Path="24 大数据top k-快排分割.vcxproj" />
 </Solution>

@@ -32,14 +32,15 @@ void topMin(int k, vector<int>& vec) {
 
 //求最大的前k个数字：小根堆-从小到大
 void topMax(int k, vector<int>& vec) {
+	//使用greater<int>仿函数
 	priority_queue<int, vector<int>, greater<int>> minheap;
 	for (int i = 0; i < k; i++) {
 		minheap.push(vec[i]);
 	}
 	for (int i = k; i < vec.size(); i++) {
 		if (minheap.top() < vec[i]) {
-			minheap.pop();
-			minheap.push(vec[i]);
+			minheap.pop();  // 出堆：O(logk)
+			minheap.push(vec[i]);  // 出堆：O(logk)
 		}
 	}
 	while (!minheap.empty()) {
