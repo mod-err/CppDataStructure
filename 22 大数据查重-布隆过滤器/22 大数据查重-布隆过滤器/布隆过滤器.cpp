@@ -15,7 +15,7 @@ public:
 	}
 public:
 	//增加元素
-	void setBit(const string* str) {
+	void setBit(const char* str) {
 		// 计算k组哈希函数的值
 	    // 经过哈希函数处理后不一定落在位图范围内，把大数映射到 位图数组内
 		//外层函数已经拿到了指针，内层函数直接用这个指针传参即可，不需要再取地址。
@@ -40,7 +40,7 @@ public:
 		bitMap_[idx] |= (1 << ofs);
 	}
 	//查找元素
-	bool getBit(const string* str) {
+	bool getBit(const char* str) {
 		int idx1 = BKDRHash(str) % bitSize_;
 		int idx2 = RSHash(str) % bitSize_;
 		int idx3 = APHash(str) % bitSize_;
@@ -77,10 +77,10 @@ private:
 class BlackList {
 public:
 	void add(string url) {
-		bloomFilter_.setBit(&url);
+		bloomFilter_.setBit(url.c_str());
 	}
 	bool query(string url) {
-		return bloomFilter_.getBit(&url);
+		return bloomFilter_.getBit(url.c_str());
 	}
 private:
 	BloomFilter bloomFilter_;
@@ -93,6 +93,6 @@ int main() {
 	list.add("http://www.tmall.com");
 	list.add("http://www.tencent.com");
 
-	string url = "http://www.alibaba.com";
+	string url = "http://www.tmall.com";
 	cout << list.query(url) << endl;
 }

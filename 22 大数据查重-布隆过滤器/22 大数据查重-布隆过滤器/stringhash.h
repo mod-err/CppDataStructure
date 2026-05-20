@@ -6,7 +6,7 @@
 template<class T>
 size_t BKDRHash(const T* str)
 {
-    register size_t hash = 0;
+      size_t hash = 0;
     while (size_t ch = (size_t)*str++)
     {
         hash = hash * 131 + ch;   // 也可以乘以31、131、1313、13131、131313..  
@@ -27,7 +27,7 @@ size_t BKDRHash(const T* str)
 template<class T>
 size_t SDBMHash(const T* str)
 {
-    register size_t hash = 0;
+      size_t hash = 0;
     while (size_t ch = (size_t)*str++)
     {
         hash = 65599 * hash + ch;
@@ -40,7 +40,7 @@ size_t SDBMHash(const T* str)
 template<class T>
 size_t RSHash(const T* str)
 {
-    register size_t hash = 0;
+      size_t hash = 0;
     size_t magic = 63689;
     while (size_t ch = (size_t)*str++)
     {
@@ -54,7 +54,7 @@ size_t RSHash(const T* str)
 template<class T>
 size_t APHash(const T* str)
 {
-    register size_t hash = 0;
+      size_t hash = 0;
     size_t ch;
     for (long i = 0; ch = (size_t)*str++; i++)
     {
@@ -76,7 +76,7 @@ size_t JSHash(const T* str)
 {
     if (!*str)        // 这是由本人添加，以保证空字符串返回哈希值0  
         return 0;
-    register size_t hash = 1315423911;
+      size_t hash = 1315423911;
     while (size_t ch = (size_t)*str++)
     {
         hash ^= ((hash << 5) + ch + (hash >> 2));
@@ -90,7 +90,7 @@ size_t DEKHash(const T* str)
 {
     if (!*str)        // 这是由本人添加，以保证空字符串返回哈希值0  
         return 0;
-    register size_t hash = 1315423911;
+      size_t hash = 1315423911;
     while (size_t ch = (size_t)*str++)
     {
         hash = ((hash << 5) ^ (hash >> 27)) ^ ch;
@@ -104,7 +104,7 @@ size_t FNVHash(const T* str)
 {
     if (!*str)   // 这是由本人添加，以保证空字符串返回哈希值0  
         return 0;
-    register size_t hash = 2166136261;
+      size_t hash = 2166136261;
     while (size_t ch = (size_t)*str++)
     {
         hash *= 16777619;
@@ -119,7 +119,7 @@ size_t DJBHash(const T* str)
 {
     if (!*str)   // 这是由本人添加，以保证空字符串返回哈希值0  
         return 0;
-    register size_t hash = 5381;
+      size_t hash = 5381;
     while (size_t ch = (size_t)*str++)
     {
         hash += (hash << 5) + ch;
@@ -133,7 +133,7 @@ size_t DJB2Hash(const T* str)
 {
     if (!*str)   // 这是由本人添加，以保证空字符串返回哈希值0  
         return 0;
-    register size_t hash = 5381;
+      size_t hash = 5381;
     while (size_t ch = (size_t)*str++)
     {
         hash = hash * 33 ^ ch;
@@ -150,7 +150,7 @@ size_t PJWHash(const T* str)
     static const size_t OneEighth = TotalBits / 8;
     static const size_t HighBits = ((size_t)-1) << (TotalBits - OneEighth);
 
-    register size_t hash = 0;
+      size_t hash = 0;
     size_t magic = 0;
     while (size_t ch = (size_t)*str++)
     {
@@ -171,7 +171,7 @@ size_t ELFHash(const T* str)
     static const size_t ThreeQuarters = (TotalBits * 3) / 4;
     static const size_t OneEighth = TotalBits / 8;
     static const size_t HighBits = ((size_t)-1) << (TotalBits - OneEighth);
-    register size_t hash = 0;
+      size_t hash = 0;
     size_t magic = 0;
     while (size_t ch = (size_t)*str++)
     {
