@@ -63,7 +63,6 @@ public:
 		{
 			return false;
 		}
-
 		//当前节点的父节点
 		Node* parent = nullptr;
 		//从根节点往下找
@@ -86,12 +85,30 @@ public:
 				break;
 			}
 		}
-		//删除值相等的节点
-		if (cur->left_ == nullptr && cur->right_ == nullptr)
+		//没有找到待删除节点
+		if (cur == nullptr)
 		{
-			parent = nullptr;
+			return false;
 		}
-		else if (cur->left_ == nullptr)
+
+		//删除值相等的节点
+		if (cur->left_ != nullptr && cur->right_ != nullptr)
+		{
+			parent = cur;
+			//当前节点的左子树
+			Node* max = cur->left_;
+			while (max->right_ != nullptr)
+			{
+				parent = max;
+				//找左子树的最大的
+				max = max->right_;
+			}
+			cur->data_ = max->data_;
+			cur = max;
+		}
+
+
+		if (cur->left_ == nullptr)
 		{
 
 			parent = cur->right_;
@@ -102,14 +119,7 @@ public:
 		}
 		else 
 		{
-			Node* max = cur;
-			while (max->left_ != nullptr)
-			{
-				//找左子树的最大的
-				max = max->left_;
-			}
-			cur->data_ = max->data_;
-			max = nullptr;
+
 		}
 		return true;
 	}
