@@ -55,6 +55,57 @@ public:
 		}
 		return true;
 	}
+	//删除
+	bool erase(T val) 
+	{
+		//没有根节点，直接返回
+		if (root_ == nullptr)
+		{
+			return false;
+		}
+
+		//当前节点的父节点
+		Node* parent = nullptr;
+		//从根节点往下找
+		Node* cur = root_;
+		//寻找和val值相等的节点
+		while (cur != nullptr)
+		{
+			if (val < cur->data_)
+			{
+				parent = cur;
+				cur = cur->left_;
+			}
+			else if (val > cur->data_)
+			{
+				parent = cur;
+				cur = cur->right_;
+			}
+			else 
+			{
+				break;
+			}
+		}
+		//删除值相等的节点
+		if (cur->left_ == nullptr && cur->right_ == nullptr)
+		{
+			parent = nullptr;
+		}
+		else if (cur->left_ == nullptr)
+		{
+
+			parent = cur->right_;
+		}
+		else if (cur->right_ == nullptr)
+		{
+			parent = cur->left_;
+		}
+		else 
+		{
+		
+		}
+	}
+
 private:
 	struct Node
 	{
