@@ -102,8 +102,16 @@ public:
 		}
 		else 
 		{
-		
+			Node* max = cur;
+			while (max->left_ != nullptr)
+			{
+				//找左子树的最大的
+				max = max->left_;
+			}
+			cur->data_ = max->data_;
+			max = nullptr;
 		}
+		return true;
 	}
 
 private:
@@ -133,6 +141,7 @@ int main()
 	{
 		tree.insert(v);
 	}
+	tree.erase(24);
 
 	return 0;
 }
