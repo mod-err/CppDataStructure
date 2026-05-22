@@ -2,7 +2,7 @@
 
 using namespace std;
 
-template<typename T, typename Comp = less<T>>
+template<typename T, typename Comp = less<T>> 
 class BSTree
 {
 public:
@@ -82,6 +82,7 @@ public:
 			}
 			else 
 			{
+				//找到后跳出循环
 				break;
 			}
 		}
@@ -91,7 +92,9 @@ public:
 			return false;
 		}
 
-		//删除值相等的节点
+		//删除目标节点
+
+		//情况3：左右孩子非空
 		if (cur->left_ != nullptr && cur->right_ != nullptr)
 		{
 			parent = cur;
@@ -104,23 +107,44 @@ public:
 				max = max->right_;
 			}
 			cur->data_ = max->data_;
+			//情况3转化为情况1/2
 			cur = max;
 		}
 
-
-		if (cur->left_ == nullptr)
+		//叶子节点包含在只有左或右孩子情况中
+		if (cur->left_ == nullptr)  //只有右孩子
 		{
-
-			parent = cur->right_;
+			//删除的是根节点
+			if (parent == nullptr)
+			{
+				root_ = cur->right_;
+			}
+			else if (parent->left_ == cur)
+			{
+				parent->left_ = cur->right_;
+			}
+			else
+			{
+				parent->right_ = cur->right_;
+			}
 		}
-		else if (cur->right_ == nullptr)
+		else if (cur->right_ == nullptr) //只有左孩子
 		{
-			parent = cur->left_;
+			if (parent == nullptr)
+			{
+				root_ = cur->left_;
+			}
+			else if (parent->left_ == cur)
+			{
+				parent->left_ = cur->left_;
+			}
+			else
+			{
+				parent->right_ = cur->right_;
+			}
 		}
-		else 
-		{
 
-		}
+		delete cur;
 		return true;
 	}
 
@@ -151,7 +175,94 @@ int main()
 	{
 		tree.insert(v);
 	}
-	tree.erase(24);
+	tree.erase(58);
 
 	return 0;
 }
+
+#if 0
+//删除
+bool erase(T val)
+{
+	//没有根节点，直接返回
+	if (root_ == nullptr)
+	{
+		return false;
+	}
+	//当前节点的父节点
+	Node* parent = nullptr;
+	//从根节点往下找
+	Node* cur = root_;
+	//寻找和val值相等的节点
+	while (cur != nullptr)
+	{
+		if (val < cur->data_)
+		{
+			parent = cur;
+			cur = cur->left_;
+		}
+		else if (val > cur->data_)
+		{
+			parent = cur;
+			cur = cur->right_;
+		}
+		else
+		{
+			//找到后跳出循环
+			break;
+		}
+	}
+	//没有找到待删除节点
+	if (cur == nullptr)
+	{
+		return false;
+	}
+
+	//删除目标节点
+
+	//情况3：左右孩子非空
+	if (cur->left_ != nullptr && cur->right_ != nullptr)
+	{
+		parent = cur;
+		//当前节点的左子树
+		Node* max = cur->left_;
+		while (max->right_ != nullptr)
+		{
+			parent = max;
+			//找左子树的最大的
+			max = max->right_;
+		}
+		cur->data_ = max->data_;
+		//情况3转化为情况1/2
+		cur = max;
+	}
+
+	/*
+	先默认指向左节点：
+		如果是叶子节点，指向右；
+		如果只有左节点，指向左；
+		如果只有右节点，指向右；
+	*/
+	Node* child = cur->left_;
+	if (cur->left_ == nullptr)
+	{
+		child = cur->right_;
+	}
+
+	if (parent == nullptr)
+	{
+		root_ = child;
+	}
+	else if (parent->left_ == cur)
+	{
+		parent->left_ = child;
+	}
+	else
+	{
+		parent->right_ = child;
+	}
+
+	delete cur;
+	return true;
+}
+#endif
