@@ -5,6 +5,22 @@ using namespace std;
 template<typename T, typename Comp = less<T>> 
 class BSTree
 {
+private:
+	struct Node
+	{
+		Node(T data = T()) //T()是匿名对象，调用默认构造
+			: data_(data)
+			, left_(nullptr)
+			, right_(nullptr)
+		{
+		}
+		T data_;
+		Node* left_;
+		Node* right_;
+	};
+
+	Node* root_; // 根节点
+	Comp comp_;  // 定义一个函数对象
 public:
 	BSTree(Comp comp = Comp()) 
 		: root_(nullptr) 
@@ -150,7 +166,7 @@ public:
 		delete cur;
 		return true;
 	}
-
+	//查找
 	bool n_find(T val)
 	{
 		//如果树为空直接返回假
@@ -174,33 +190,90 @@ public:
 		}
 		return false;
 	}
-	//递归实现前序遍历
-	void preOrder(Node* node)
+	//递归实现前序遍历-用户接口
+	void preOrder()
+	{
+		cout << "[递归]前序遍历：";
+		preOrder(root_); //root_是私有成员，所以要重载一个用户接口
+		cout << endl;
+	}
+	//递归实现中序遍历-用户接口
+	void inOrder()
+	{
+		cout << "[递归]前序遍历："; 
+		inOrder(root_);
+		cout << endl;
+	}
+	//递归实现后序遍历-用户接口
+	void postOrder()
+	{
+		cout << "[递归]前序遍历：";
+		postOrder(root_);
+		cout << endl;
+	}
+	//递归实现层序遍历-用户接口
+	void levelOrder()
 	{
 
 	}
-
-private:
-	struct Node
+	//递归计算层数-用户接口
+	int level()
 	{
-		Node(T data = T()) //T()是匿名对象，调用默认构造
-			: data_(data)
-			, left_(nullptr)
-			, right_(nullptr)
-		{}
-		T data_;
-		Node* left_;
-		Node* right_;
-	};
+		
+		return;
+	}
+	//递归计算节点个数-用户接口
+	int number()
+	{
 
-	Node* root_; // 根节点
-	Comp comp_;  // 定义一个函数对象
+		return;
+	}
 
 private:
-	//递归实现前序遍历
+	//递归实现前序遍历-VLR
 	void preOrder(Node* node) 
 	{
-	
+		if (node != nullptr)
+		{
+			cout << node->data_ << " "; //V
+			preOrder(node->left_);      //L
+			preOrder(node->right_);     //R
+		}
+	}
+	//递归实现中序遍历-LVR
+	void inOrder(Node* node)
+	{
+		if (node != nullptr)
+		{
+			inOrder(node->left_);       //L
+			cout << node->data_ << " "; //V
+			preOrder(node->right_);     //R
+		}
+	}
+	//递归实现后序遍历-LRV
+	void postOrder(Node* node)
+	{
+		if (node != nullptr)
+		{
+			postOrder(node->left_);     //L
+			postOrder(node->right_);    //R
+			cout << node->data_ << " "; //V
+		}
+	}
+	//递归实现层序遍历
+	void levelOrder(Node* node)
+	{
+
+	}
+	//递归计算层数
+	int level(Node* node)
+	{
+
+	}
+	//递归计算节点个数
+	int number(Node* node)
+	{
+
 	}
 };
 
@@ -214,6 +287,10 @@ int main()
 	{
 		tree.n_insert(v);
 	}
+	tree.preOrder();
+	tree.inOrder();
+	tree.postOrder();
+
 	tree.n_erase(58);
 
 	cout << tree.n_find(58) << endl;
