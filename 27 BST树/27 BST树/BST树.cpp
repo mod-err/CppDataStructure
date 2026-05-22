@@ -10,10 +10,13 @@ public:
 		: root_(nullptr) 
 		, comp_(comp)
 	{}
-	~BSTree() {}
+	~BSTree() 
+	{
+	
+	}
 public:
 	//插入
-	bool insert(T val) 
+	bool n_insert(T val) 
 	{
 		//没有根节点，先生成根节点
 		if (root_ == nullptr) 
@@ -56,7 +59,7 @@ public:
 		return true;
 	}
 	//删除
-	bool erase(T val) 
+	bool n_erase(T val) 
 	{
 		//没有根节点，直接返回
 		if (root_ == nullptr)
@@ -148,6 +151,35 @@ public:
 		return true;
 	}
 
+	bool n_find(T val)
+	{
+		//如果树为空直接返回假
+		Node* cur = root_;
+		while (cur != nullptr)
+		{
+			if (val < cur->data_)
+			{
+				cur = cur->left_;
+			}
+			else if (val > cur->data_) 
+			{
+				cur = cur->right_;
+			}
+			else
+			{
+				//找到直接返回
+				return true;
+			}
+
+		}
+		return false;
+	}
+	//递归实现前序遍历
+	void preOrder(Node* node)
+	{
+
+	}
+
 private:
 	struct Node
 	{
@@ -163,6 +195,13 @@ private:
 
 	Node* root_; // 根节点
 	Comp comp_;  // 定义一个函数对象
+
+private:
+	//递归实现前序遍历
+	void preOrder(Node* node) 
+	{
+	
+	}
 };
 
 int main() 
@@ -173,9 +212,12 @@ int main()
 
 	for (int v : arr)
 	{
-		tree.insert(v);
+		tree.n_insert(v);
 	}
-	tree.erase(58);
+	tree.n_erase(58);
+
+	cout << tree.n_find(58) << endl;
+	cout << tree.n_find(0) << endl;
 
 	return 0;
 }
