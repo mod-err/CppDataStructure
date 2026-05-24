@@ -214,19 +214,23 @@ public:
 	//递归实现层序遍历-用户接口
 	void levelOrder()
 	{
-
+		cout << "[递归]层序遍历：";
+		int h = level(); //树的层数
+		for (int i = 0; i < h; i++)
+		{
+			levelOrder(root_, i); //递归调用树的层数次
+		}
+		cout << endl;
 	}
 	//递归计算层数-用户接口
 	int level()
 	{
-		
-		return;
+		return level(root_);
 	}
 	//递归计算节点个数-用户接口
 	int number()
 	{
-
-		return;
+		return number(root_);
 	}
 
 private:
@@ -261,19 +265,42 @@ private:
 		}
 	}
 	//递归实现层序遍历
-	void levelOrder(Node* node)
+	void levelOrder(Node* node, int i)
 	{
-
+		//树空：不遍历
+		if (node == nullptr)
+		{
+			return;
+		}
+		if (i == 0)
+		{
+			cout << node->data_ << " ";
+			return;
+		}
+		levelOrder(node->left_, i - 1);
+		levelOrder(node->right_, i - 1);
 	}
 	//递归计算层数
 	int level(Node* node)
 	{
-
+		if (node == nullptr)
+		{
+			return 0;
+		}
+		int left = level(node->left_);
+		int right = level(node->right_);
+		return max(left, right) + 1;  //left > right ? left + 1 : right + 1;
 	}
 	//递归计算节点个数
 	int number(Node* node)
 	{
-
+		if (node == nullptr)
+		{
+			return 0;
+		}
+		int left = number(node->left_);   //L
+		int right = number(node->right_); //R
+		return left + right + 1; //V  +1是根节点，相当于后续遍历
 	}
 };
 
@@ -290,6 +317,10 @@ int main()
 	tree.preOrder();
 	tree.inOrder();
 	tree.postOrder();
+	tree.levelOrder();
+
+	cout << "层数：" << tree.level() << endl;
+	cout << "树节点总数：" << tree.number() << endl;
 
 	tree.n_erase(58);
 
