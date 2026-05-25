@@ -31,7 +31,7 @@ public:
 	
 	}
 public:
-	//插入
+	//非递归插入
 	bool n_insert(T val) 
 	{
 		//没有根节点，先生成根节点
@@ -74,7 +74,12 @@ public:
 		}
 		return true;
 	}
-	//删除
+	//递归插入-用户接口
+	void insert(const T val)
+	{
+		root_ = insert(root_, val);
+	}
+	//非递归删除
 	bool n_erase(T val) 
 	{
 		//没有根节点，直接返回
@@ -166,7 +171,12 @@ public:
 		delete cur;
 		return true;
 	}
-	//查找
+	//递归删除-用户接口
+	void erase(const T val)
+	{
+		root_ = erase(root_, val);
+	}
+	//非递归查找
 	bool n_find(T val)
 	{
 		//如果树为空直接返回假
@@ -189,6 +199,11 @@ public:
 
 		}
 		return false;
+	}
+	//递归查找-用户接口
+	bool find(const T val)
+	{
+		return find(root_, val);
 	}
 	//递归实现前序遍历-用户接口
 	void preOrder()
@@ -234,6 +249,70 @@ public:
 	}
 
 private:
+	//递归插入
+	Node* insert(Node* node, const T val)
+	{
+		if (node == nullptr)
+		{
+			//找到待插入的位置，递归结束，生成新节点并返回其节点地址
+			return new Node(val);
+		}
+		if (val < node->data_)
+		{
+			node->left_ = insert(node->left_, val);
+		}
+		else if (val > node->data_)
+		{
+			node->right_ = insert(node->right_, val);
+		}
+		else 
+		{
+			return node;
+		}
+		return node;
+	}
+	//递归查找
+	bool find(Node* node, const T val)
+	{
+		if (node == nullptr)
+		{
+			return false;
+		}
+		if (val < node->data_)
+		{
+			return find(node->left_, val);
+		}
+		else if(val > node->data_)
+		{
+			return find(node->right_, val);
+		}
+		else 
+		{
+			return true;
+		}
+	}
+	//递归删除-用户接口
+	Node* erase(Node* node, const T val)
+	{
+		if (node == nullptr)
+		{
+			return node;
+		}
+
+		if (val < node->data_)
+		{
+			node->left_ = erase(node->left_, val);
+		}
+		else if (val > node->data_)
+		{
+			node->right_ = erase(node->right_, val);
+		}
+		else
+		{
+			return node;
+		}
+
+	}
 	//递归实现前序遍历-VLR
 	void preOrder(Node* node) 
 	{
@@ -312,7 +391,8 @@ int main()
 
 	for (int v : arr)
 	{
-		tree.n_insert(v);
+		//tree.n_insert(v);
+		tree.insert(v);
 	}
 	tree.preOrder();
 	tree.inOrder();
@@ -324,8 +404,10 @@ int main()
 
 	tree.n_erase(58);
 
-	cout << tree.n_find(58) << endl;
-	cout << tree.n_find(0) << endl;
+	//cout << tree.n_find(58) << endl;
+	//cout << tree.n_find(0) << endl;
+	cout << tree.find(58) << endl;
+	cout << tree.find(0) << endl;
 
 	return 0;
 }
