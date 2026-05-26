@@ -577,24 +577,30 @@ private:
 		}
 	}
 	//递归实现BST树判断
-	bool isBSTree(Node* node, Node* pre)
+	bool isBSTree(Node* node, Node*& pre)
 	{
 		//判断BST树要借助中序遍历实现
 		if (node != nullptr)
 		{
 			//L
-			isBSTree(node->left_, pre);
-			//V-当前节点的值 应该大于 前一节点的值
-			if (node->data_ <= pre->data_)
+			if (!isBSTree(node->left_, pre))
 			{
 				return false;
+			}
+			//V-当前节点的值 应该大于 前一节点的值
+			if (pre != nullptr)
+			{
+				if (node->data_ <= pre->data_)
+				{
+					return false;
+				}
 			}
 			//更新前驱节点
 			pre = node;
 			//R
-			isBSTree(node->right_, pre);
+			return isBSTree(node->right_, pre);
 		}
-
+		return true;
 
 		//只进行了局部BST树判断，无法真正判断是不是BST树
 		/*
