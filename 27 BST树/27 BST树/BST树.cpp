@@ -1,11 +1,13 @@
 ﻿#include <iostream>
+#include <stack>
+#include <queue>
 
 using namespace std;
 
 template<typename T, typename Comp = less<T>> 
 class BSTree
 {
-private:
+public:
 	struct Node
 	{
 		Node(T data = T()) //T()是匿名对象，调用默认构造
@@ -212,18 +214,118 @@ public:
 		preOrder(root_); //root_是私有成员，所以要重载一个用户接口
 		cout << endl;
 	}
+	//非递归实现前序遍历-VLR
+	void n_preOrder()
+	{
+		cout << "[非递]前序遍历：";
+		//树为空
+		if (root_ == nullptr)
+		{
+			return;
+		}
+		//树非空
+		stack<Node*> s;
+		s.push(root_);
+
+		while (!s.empty())
+		{
+			Node* top = s.top();
+			cout << top->data_ << " ";  //V
+			s.pop();
+
+			if (top->right_ != nullptr)
+			{
+				s.push(top->right_);    //R
+			}
+			if (top->left_ != nullptr)
+			{
+				s.push(top->left_);     //L
+			}
+		}
+		cout << endl;
+	}
 	//递归实现中序遍历-用户接口
 	void inOrder()
 	{
-		cout << "[递归]前序遍历："; 
+		cout << "[递归]中序遍历："; 
 		inOrder(root_);
+		cout << endl;
+	}
+	//非递归实现中序遍历-LVR
+	void n_inOrder() 
+	{
+		cout << "[非递]中序遍历：";
+		//树空
+		if (root_ == nullptr)
+		{
+			return;
+		}
+		//树非空
+		stack<Node*> s;
+		Node* cur = root_;
+		while (cur != nullptr)
+		{
+			s.push(cur);      
+			cur = cur->left_;  //L
+		}
+
+		while (!s.empty())
+		{
+			Node* top = s.top();
+			cout << top->data_ << " ";  //V
+			s.pop();
+
+			cur = top->right_;   //R
+			while (cur != nullptr)
+			{
+				s.push(cur);
+				cur = cur->left_; 
+			}
+		}
 		cout << endl;
 	}
 	//递归实现后序遍历-用户接口
 	void postOrder()
 	{
-		cout << "[递归]前序遍历：";
+		cout << "[递归]后序遍历：";
 		postOrder(root_);
+		cout << endl;
+	}
+	//非递归实现后序遍历-LRV
+	void n_postOrder()
+	{
+		cout << "[非递]后序遍历：";
+		//树为空
+		if (root_ == nullptr)
+		{
+			return;
+		}
+		//树非空
+		stack<Node*> s;
+		stack<int> n;
+		s.push(root_);
+
+		while (!s.empty())
+		{
+			Node* top = s.top();
+			n.push(top->data_);   //V
+			s.pop();
+
+			if (top->left_ != nullptr)
+			{
+				s.push(top->left_);     //L
+			}
+			if (top->right_ != nullptr)
+			{
+				s.push(top->right_);    //R
+			}
+		}
+		//打印
+		while (!n.empty())
+		{
+			cout << n.top() << " ";
+			n.pop();
+		}
 		cout << endl;
 	}
 	//递归实现层序遍历-用户接口
@@ -237,6 +339,35 @@ public:
 		}
 		cout << endl;
 	}
+	//非递归实现层序遍历
+	void n_levelOrder()
+	{
+		cout << "[非递]层序遍历：";
+		if (root_ == nullptr)
+		{
+			return;
+		}
+
+		queue<Node*> q;
+		q.push(root_);
+
+		while (!q.empty())
+		{
+			Node* front = q.front();
+			cout << front->data_ << " ";
+			q.pop();
+
+			if (front->left_ != nullptr)
+			{
+				q.push(front->left_);
+			}
+			if (front->right_ != nullptr)
+			{
+				q.push(front->right_);
+			}
+		}
+		cout << endl;
+	}
 	//递归计算层数-用户接口
 	int level()
 	{
@@ -246,6 +377,19 @@ public:
 	int number()
 	{
 		return number(root_);
+	}
+	//递归实现区间搜索-用户接口
+	void findValues(vector<T>& vec, T i, T j)
+	{ 
+		//递归要有节点做为输入参数，所以要重新封装函数
+		cout << "[" << i << "," << j << "]" << "区间内元素为：";
+		findValues(root_, vec, i, j);
+	}
+	//递归实现BST树判断-用户接口
+	bool isBSTree()
+	{
+		Node* pre = nullptr;
+		return isBSTree(root_, pre);
 	}
 
 private:
@@ -291,12 +435,13 @@ private:
 			return true;
 		}
 	}
-	//递归删除-用户接口
+	//递归删除
 	Node* erase(Node* node, const T val)
 	{
+		//递归结束条件：空节点，直接返回空
 		if (node == nullptr)
 		{
-			return node;
+			return nullptr;
 		}
 
 		if (val < node->data_)
@@ -309,9 +454,34 @@ private:
 		}
 		else
 		{
-			return node;
+			//情况3
+			if (node->left_ != nullptr && node->right_ != nullptr)
+			{
+				Node* max = node->left_;
+				while (max->right_ != nullptr)
+				{
+					max = max->right_;
+				}
+				node->data_ = max->data_;
+				//前驱节点 = erase(当前节点左子树, val);
+				node->left_ = erase(node->left_, max->data_); 
+				return node;
+			}
+			//情况1/2
+			if (node->left_ == nullptr)
+			{
+				Node* left = node->left_;
+				delete node;
+				return left;
+			}
+			else if (node->right_ == nullptr) 
+			{
+				Node* right = node->right_;
+				delete node;
+				return right;
+			}
 		}
-
+		return node;
 	}
 	//递归实现前序遍历-VLR
 	void preOrder(Node* node) 
@@ -330,7 +500,7 @@ private:
 		{
 			inOrder(node->left_);       //L
 			cout << node->data_ << " "; //V
-			preOrder(node->right_);     //R
+			inOrder(node->right_);     //R
 		}
 	}
 	//递归实现后序遍历-LRV
@@ -381,6 +551,84 @@ private:
 		int right = number(node->right_); //R
 		return left + right + 1; //V  +1是根节点，相当于后续遍历
 	}
+	//递归实现区间搜索
+	void findValues(Node* node, vector<T>& vec, T i, T j)
+	{
+		//中序遍历结果是有序的，所以借助其实现
+		if (node != nullptr)
+		{
+			//利用BST L < V < R的特点减少递归次数
+			
+			//L-减少搜索次数，<=i 无需往右子树递归
+			if (node->data_ > i)
+			{
+				findValues(node->left_, vec, i, j);
+			}
+			//V
+			if (node->data_ >= i && node->data_ <= j)
+			{
+				vec.push_back(node->data_);
+			}
+			//R-减少搜索次数，>=j 无需往右子树递归
+			if (node->data_ < j)
+			{
+				findValues(node->right_, vec, i, j);
+			}
+		}
+	}
+	//递归实现BST树判断
+	bool isBSTree(Node* node, Node* pre)
+	{
+		//判断BST树要借助中序遍历实现
+		if (node != nullptr)
+		{
+			//L
+			isBSTree(node->left_, pre);
+			//V-当前节点的值 应该大于 前一节点的值
+			if (node->data_ <= pre->data_)
+			{
+				return false;
+			}
+			//更新前驱节点
+			pre = node;
+			//R
+			isBSTree(node->right_, pre);
+		}
+
+
+		//只进行了局部BST树判断，无法真正判断是不是BST树
+		/*
+		if (node == nullptr)
+		{
+			return true;
+		}
+		//V-判断当前节点
+		if (node->left_ != nullptr && node->data_ <= node->left_->data_)
+		{
+			return false;
+		}
+		if (node->right_ != nullptr && node->data_ >= node->right_->data_)
+		{
+			return false;
+		}
+		//L-判断当前节点左子树
+		if (!isBSTree(node->left_))
+		{
+			return false; //如果左子树返回假，无需进行下面的右子树判断，直接返回
+		}
+		//R-判断当前节点右子树
+		return isBSTree(node->right_); 
+		//代码冗余，判断右子树已经是在最后了，直接返回
+		//if (!isBSTree(node->right_))
+		//{
+		//	return false;
+		//}
+		//else 
+		//{
+		//	return true; //前面的条件都未返回假，最后返回真
+		//}
+		*/
+	}
 };
 
 int main() 
@@ -391,24 +639,59 @@ int main()
 
 	for (int v : arr)
 	{
-		//tree.n_insert(v);
-		tree.insert(v);
+		tree.n_insert(v);
+		//tree.insert(v);
 	}
 	tree.preOrder();
+	tree.n_preOrder();
 	tree.inOrder();
+	tree.n_inOrder();
 	tree.postOrder();
+	tree.n_postOrder();
 	tree.levelOrder();
+	tree.n_levelOrder();
 
 	cout << "层数：" << tree.level() << endl;
 	cout << "树节点总数：" << tree.number() << endl;
 
-	tree.n_erase(58);
+	//tree.n_erase(58);
+	tree.erase(78);
+
+	cout << "树节点总数：" << tree.number() << endl;
 
 	//cout << tree.n_find(58) << endl;
 	//cout << tree.n_find(0) << endl;
-	cout << tree.find(58) << endl;
+	cout << tree.find(78) << endl;
 	cout << tree.find(0) << endl;
 
+	//BST树区间搜索
+	vector<int> vec;
+	tree.findValues(vec, 10, 60);
+	for (int v : vec)
+	{
+		cout << v << " ";
+	}
+	cout << endl;
+
+	//判断是否是BST树
+	
+	//构建一颗不符合BST的树
+	BSTree<int> bst;
+	using Node = BSTree<int>::Node;
+
+	bst.root_ = new Node(40);
+	Node* node1 = new Node(20);
+	Node* node2 = new Node(60);
+	Node* node3 = new Node(30);
+	Node* node4 = new Node(80);
+
+	bst.root_->left_ = node1;
+	bst.root_->right_ = node2;
+	node2->left_ = node3;
+	node2->right_  = node4;
+
+	bst.inOrder();
+	cout << bst.isBSTree();
 	return 0;
 }
 
