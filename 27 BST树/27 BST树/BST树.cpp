@@ -452,6 +452,16 @@ public:
 		}
 		return mirrorSymmetry(root_->left_, root_->right_);
 	}
+	//递归实现重建二叉树-用户接口
+	void rebuild(int pre[], int i, int j, int in[], int m, int n)
+	{
+		root_ = _rebuild(pre, i, j, in, m, n);
+	}
+	//递归判断平衡二叉树-用户接口
+	bool isBalance()
+	{
+		return isBalance(root_);
+	}
 
 private:
 	//递归插入
@@ -808,6 +818,42 @@ private:
 		return mirrorSymmetry(l->left_, r->right_) && mirrorSymmetry(l->right_, r->left_);
 		*/
 	}
+	//递归实现重建二叉树
+	Node* _rebuild(int pre[], int i, int j, int in[], int m, int n)
+	{
+		//递归结束条件
+		if (m > n || i > j)
+		{
+			return nullptr;
+		}
+		//创建当前节点
+		Node* node = new Node(pre[i]);
+		for (int k = m; k <= n; k++)
+		{
+			if (in[k] == pre[i])
+			{
+				node->left_ = _rebuild(pre, i + 1, i + (k - m), in, m, k - 1);
+				node->right_ = _rebuild(pre, i + (k - m) + 1, j, in, k + 1, n);
+				return node;
+			}
+		}
+		return node;
+	}
+	//递归判断平衡二叉树-用户接口
+	bool isBalance(Node* node)
+	{
+		//递归结束条件
+		if (node == nullptr)
+		{
+			return true;
+		}
+		//V-当前节点
+		
+
+		//L和R都是平衡二叉树，返回真
+		return isBalance(node->left_) && isBalance(node->right_);
+
+	}
 };
 
 int main() 
@@ -894,6 +940,14 @@ int main()
 
 	//6.镜像对称
 	cout << (tree.mirrorSymmetry() ? "是镜像对称树" : "不是镜像对称树") << endl;
+
+	//7.重建二叉树
+	BSTree<int> bst2;
+	int pre[] = { 58, 24, 0, 5, 34, 41, 67, 62, 64, 69, 78 };
+	int in[] = { 0, 5, 24, 34, 41, 58, 62, 64, 67, 69, 78 };
+	bst2.rebuild(pre, 0, 10, in, 0, 10);
+	bst2.preOrder();
+	bst2.inOrder();
 
 	return 0;
 }
