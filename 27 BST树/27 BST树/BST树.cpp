@@ -391,6 +391,67 @@ public:
 		Node* pre = nullptr;
 		return isBSTree(root_, pre);
 	}
+	//递归实现BST子树判断-用户接口
+	bool isChildTree(BSTree<T>& child)
+	{
+		//子树为空
+		if (child.root_ == nullptr)
+		{
+			return true;
+		}
+		//查找目标节点
+		Node* cur = root_;
+		while (cur != nullptr)
+		{
+			if (child.root_->data_ < cur->data_)
+			{
+				cur = cur->left_;
+			}
+			else if (child.root_->data_ > cur->data_)
+			{
+				cur = cur->right_;
+			}
+			else
+			{
+				//找到相同节点，跳出循环
+				break;
+			}
+		}
+		//如果没找到，返回假
+		if (cur == nullptr)
+		{
+			return false;
+		}
+		//处理与目标节点相符合的左右子树
+		return isChildTree(cur, child.root_);
+	}
+	//递归实现BST中两节点公共祖先-用户接口
+	T getLCA(T val1, T val2)
+	{
+		Node* node = getLCA(root_, val1, val2);
+		if (node == nullptr)
+		{
+			throw "no LCA!";
+		}
+		else 
+		{
+			return node->data_;
+		}
+	}
+	//递归实现镜像反转-用户接口
+	void mirrorReversal()
+	{
+		mirrorReversal(root_);
+	}
+	//递归判断镜像对称-用户接口
+	bool mirrorSymmetry()
+	{
+		if (root_ == nullptr)
+		{
+			return false;
+		}
+		return mirrorSymmetry(root_->left_, root_->right_);
+	}
 
 private:
 	//递归插入
@@ -595,7 +656,7 @@ private:
 					return false;
 				}
 			}
-			//更新前驱节点
+			//更新前驱节点，使用&引用传递，共享pre
 			pre = node;
 			//R
 			return isBSTree(node->right_, pre);
@@ -624,6 +685,7 @@ private:
 		}
 		//R-判断当前节点右子树
 		return isBSTree(node->right_); 
+
 		//代码冗余，判断右子树已经是在最后了，直接返回
 		//if (!isBSTree(node->right_))
 		//{
@@ -633,6 +695,117 @@ private:
 		//{
 		//	return true; //前面的条件都未返回假，最后返回真
 		//}
+		*/
+	}
+	//递归实现BST子树判断
+	bool isChildTree(Node* node, Node* childNode) 
+	{
+		//递归结束条件
+		if (node == nullptr && childNode == nullptr)
+		{
+			return true;
+		}
+		if (node == nullptr)
+		{
+			return false;
+		}
+		if (childNode == nullptr)
+		{
+			return true;
+		}
+
+		//当前节点
+		if (node->data_ != childNode->data_)
+		{
+			return false;
+		}
+		return isChildTree(node->left_, childNode->left_) && isChildTree(node->right_, childNode->right_);
+		//两种写法等价
+		//if (!isChildTree(node->left_, childNode->left_))
+		//{
+		//	return false;
+		//}
+		//return isChildTree(node->right_, childNode->right_);
+	}
+	//递归实现BST中两节点公共祖先
+	Node* getLCA(Node* node, T val1, T val2)
+	{
+		//递归结束条件
+		if (node == nullptr)
+		{
+			return nullptr;
+		}
+		//当前节点在[val1, val2]区间左侧
+		if (node->data_ < val1 && node->data_ < val2)
+		{
+			return getLCA(node->right_, val1, val2);
+		}
+		//当前节点在[val1, val2]区间右侧
+		else if (node->data_ > val1 && node->data_ > val2) 
+		{
+			return getLCA(node->left_, val1, val2);
+		}
+		//当前节点在[val1, val2]区间内，便是公共祖先
+		else 
+		{
+			return node;
+		}
+	}
+	//递归实现镜像反转
+	void mirrorReversal(Node* node)
+	{
+		if (node != nullptr)
+		{
+			//V-交换左右节点
+			Node* left = node->left_;
+			Node* right = node->right_;
+			node->left_ = right;
+			node->right_ = left;
+			//L
+			mirrorReversal(node->left_);
+			//R
+			mirrorReversal(node->right_);
+		}
+	}
+	//递归判断镜像对称
+	bool mirrorSymmetry(Node* l, Node* r)
+	{
+		//终止条件1：两个节点都为空 → 对称
+		if (l->left_ == nullptr && r->right_ == nullptr)
+		{
+			return true;
+		}
+		//终止条件2：一个空、一个不空 → 不对称
+		if (l->left_ == nullptr || l->right_ == nullptr)
+		{
+			return false;
+		}
+		//值相等继续递归
+		if (l->data_ == r->data_)
+		{
+			return mirrorSymmetry(l->left_, r->right_) && mirrorSymmetry(l->right_, r->left_);
+		}
+		//值不相等返回假
+		return false;
+		/*
+		if (l->left_ == nullptr && r->right_ == nullptr)
+		{
+			return true;
+		}
+		if (l->left_ == nullptr)
+		{
+			return false;
+		}
+		if (l->right_ == nullptr)
+		{
+			return false;
+		}
+
+		if (l->data_ != r->data_)
+		{
+			return false;
+		}
+		return mirrorSymmetry(l->left_, r->right_) && mirrorSymmetry(l->right_, r->left_);
 		*/
 	}
 };
@@ -661,7 +834,7 @@ int main()
 	cout << "树节点总数：" << tree.number() << endl;
 
 	//tree.n_erase(58);
-	tree.erase(78);
+	//tree.erase(78);
 
 	cout << "树节点总数：" << tree.number() << endl;
 
@@ -670,7 +843,7 @@ int main()
 	cout << tree.find(78) << endl;
 	cout << tree.find(0) << endl;
 
-	//BST树区间搜索
+	//1.BST树区间搜索
 	vector<int> vec;
 	tree.findValues(vec, 10, 60);
 	for (int v : vec)
@@ -679,7 +852,7 @@ int main()
 	}
 	cout << endl;
 
-	//判断是否是BST树
+	//2.判断是否是BST树
 	
 	//构建一颗不符合BST的树
 	BSTree<int> bst;
@@ -697,7 +870,31 @@ int main()
 	node2->right_  = node4;
 
 	bst.inOrder();
-	cout << bst.isBSTree();
+	cout << (bst.isBSTree() ? "是BST树" : "不是BST树") << endl;
+
+	//3.判断BST子树
+	BSTree<int> bst1;
+
+	bst1.root_ = new Node(67);
+	Node* node5 = new Node(62);
+	Node* node6 = new Node(69);
+
+	bst1.root_->left_ = node5;
+	bst1.root_->right_ = node6;
+
+	cout << (tree.isChildTree(bst1) ? "是BST子树" : "不是BST子树") << endl;
+
+	//4.寻找公共祖先
+	cout << tree.getLCA(5, 41) << endl;
+
+	//5.镜像反转
+	tree.mirrorReversal();
+	tree.inOrder();
+	tree.mirrorReversal();
+
+	//6.镜像对称
+	cout << (tree.mirrorSymmetry() ? "是镜像对称树" : "不是镜像对称树") << endl;
+
 	return 0;
 }
 
