@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <stack>
 #include <queue>
+#include <cmath>
 
 using namespace std;
 
@@ -462,6 +463,11 @@ public:
 	{
 		return isBalance(root_);
 	}
+	//递归判断平衡二叉树-用户接口-优化时间复杂度
+	bool _isBalance()
+	{
+		return _isBalance(root_) != -1;
+	}
 
 private:
 	//递归插入
@@ -839,7 +845,7 @@ private:
 		}
 		return node;
 	}
-	//递归判断平衡二叉树-用户接口
+	//递归判断平衡二叉树
 	bool isBalance(Node* node)
 	{
 		//递归结束条件
@@ -848,11 +854,49 @@ private:
 			return true;
 		}
 		//V-当前节点
-		
+		int left = level(node->left_);
+		int right = level(node->right_);
+		if (abs(left - right) > 1)
+		{
+			return false;
+		}
 
-		//L和R都是平衡二叉树，返回真
+		//L R 都是平衡二叉树，返回真
 		return isBalance(node->left_) && isBalance(node->right_);
+		/*
+		if (abs(left - right) <= 1)
+		{
+			return isBalance(node->left_) && isBalance(node->right_);
+		}
+		return false;
+		*/
+	}
+	//递归判断平衡二叉树-优化时间复杂度
+	int _isBalance(Node* node)
+	{
+		if (node == nullptr)
+		{
+			return 0;
+		}
+		//v-当前节点
+		int left = _isBalance(node->left_);
+		if (left == -1)
+		{
+			return -1;
+		}
 
+		int right = _isBalance(node->right_);
+		if (right == -1)
+		{
+			return -1;
+		}
+
+		if (abs(left - right) > 1)
+		{
+			return -1;
+		}
+
+		return max(left, right) + 1;
 	}
 };
 
@@ -948,6 +992,13 @@ int main()
 	bst2.rebuild(pre, 0, 10, in, 0, 10);
 	bst2.preOrder();
 	bst2.inOrder();
+
+	//8. 平衡二叉树判断
+	tree.insert(12);
+	cout << (tree.isBalance() ? "是平衡二叉树" : "不是平衡二叉树") << endl;
+	tree.erase(12);
+	cout << (tree.isBalance() ? "是平衡二叉树" : "不是平衡二叉树") << endl;
+
 
 	return 0;
 }
