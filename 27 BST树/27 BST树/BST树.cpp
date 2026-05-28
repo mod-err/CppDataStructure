@@ -468,6 +468,20 @@ public:
 	{
 		return _isBalance(root_) != -1;
 	}
+	//递归求中序遍历倒数第k个节点-用户接口
+	T getValue(int k)
+	{
+		int cnt = 0;
+		Node* node = getValue(root_, k, cnt);
+		if (node == nullptr)
+		{
+			throw "empty!";
+		}
+		else 
+		{
+			return node->data_;
+		}
+	}
 
 private:
 	//递归插入
@@ -898,6 +912,32 @@ private:
 
 		return max(left, right) + 1;
 	}
+	//递归求中序遍历倒数第k个节点
+	Node* getValue(Node* node, int k, int& cnt)
+	{
+		//递归结束条件
+		if (node == nullptr)
+		{
+			return nullptr;
+		}
+		//LVR倒数第k个，即RVL正数第k个
+
+		//R
+		Node* right = getValue(node->right_, k, cnt);
+		//在右子树中找到后返回
+		if (right != nullptr)
+		{
+			return right;
+		}
+		//V
+		cnt++;
+		if (k == cnt)
+		{
+			return node;
+		}
+		//L-不管找没找到，其是最后一步执行，都得返回
+		return getValue(node->left_, k, cnt);
+	}
 };
 
 int main() 
@@ -999,7 +1039,9 @@ int main()
 	tree.erase(12);
 	cout << (tree.isBalance() ? "是平衡二叉树" : "不是平衡二叉树") << endl;
 
-
+	//9.中序遍历倒数第k节点
+	tree.inOrder();
+	cout << tree.getValue(4) << endl;
 	return 0;
 }
 
