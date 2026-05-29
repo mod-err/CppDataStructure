@@ -31,7 +31,28 @@ public:
 	{}
 	~BSTree() 
 	{
-	
+		if (root_ == nullptr)
+		{
+			delete root_;
+		}
+		queue<Node*> q;
+		q.push(root_);
+		while (!q.empty())
+		{
+			Node* front = q.front();
+			q.pop();
+
+			if (front->left_ != nullptr)
+			{
+				q.push(front->left_);
+			}
+			if (front->right_ != nullptr)
+			{
+				q.push(front->right_);
+			}
+
+			delete front;
+		}
 	}
 public:
 	//非递归插入
