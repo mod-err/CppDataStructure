@@ -41,3 +41,17 @@ ipch/
 *.idb
 *.res
 *.manifest
+
+# ========== 5. C++ 编译生成文件 ==========
+
+*.exe
+*.out
+*.o
+*.obj
+*.bin
+*.a
+*.so
+
+# ========== 6. VS Code 配置文件 ==========
+.vscode/
+*.code-workspace
