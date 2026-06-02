@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="AVL树.vcxproj" />
+  <Project Path="AVL树.vcxproj" Id="77118037-bc41-402b-84b6-3ac8e0289cdf" />
 </Solution>
