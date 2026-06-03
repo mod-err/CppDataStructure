@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <algorithm>
+#include <queue>
 #include <cmath>
 
 using namespace std;
@@ -85,7 +86,25 @@ public:
     {}
     ~AVLTree()
     {
-
+        if (root_ != nullptr)
+        {
+            queue<Node*> q;
+            q.push(root_);
+            while (!q.empty())
+            {
+                Node* cur = q.front();
+                q.pop();
+                if (cur->left_ != nullptr)
+                {
+                    q.push(cur->left_);
+                }
+                if (cur->right_ != nullptr)
+                {
+                    q.push(cur->right_);
+                }
+                delete cur;
+            }
+        }
     }
 public:
     //插入-递归-用户接口
