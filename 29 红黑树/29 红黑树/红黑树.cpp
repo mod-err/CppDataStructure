@@ -56,6 +56,80 @@ private:
 	{
 		return node->parent_;
 	}
+	//在递归操作中只需要3行代码，旋转后的根节点与父亲节点的连接是在递归回溯时完成的，非递归操作需要加更多代码
+	//左旋转操作-非递归
+	void leftRotate(Node* node)
+	{
+		Node* child = node->right_;
+		node->right_ = child->left_;
+
+		//修改左孩子的父节点指针指向
+		if (child->left_ != nullptr)
+		{
+			child->left_->parent_ = node;
+		}
+
+		//旋转后的根节点与父节点连接
+		if (node->parent_ == nullptr)
+		{
+			root_ = child;
+		}
+		else
+		{
+			//判断node是在父节点的左或右子树
+			if (node->parent_->left_ == node)
+			{
+				node->parent_->left_ = child;
+			}
+			else
+			{
+				node->parent_->right_ = child;
+			}
+		}
+		//修改child节点的父节点
+		child->parent_ = node->parent_;
+
+		child->left_ = node;
+		//修改node节点的父节点
+		node->parent_ = child;
+	}
+	//右旋转操作-非递归
+	void rightRotate(Node* node)
+	{
+		Node* child = node->left_;
+		node->left_ = child->right_;
+
+		//child右孩子连接关系发生改变，修正其父节点指针
+		if (child->right_ != nullptr)
+		{
+			child->right_->parent_ = node;
+		}
+
+		// 旋转后的根节点与父节点连接
+		if (node->parent_ == nullptr)
+		{
+			root_ = child;
+		}
+		else
+		{
+			//判断node是在父节点的左或右子树
+			if (node->parent_->left_ == node)
+			{
+				node->parent_->left_ = child;
+			}
+			else
+			{
+				node->parent_->right_ = child;
+			}
+		}
+
+		//child节点连接关系发生改变，修正其父节点指针
+		child->parent_ = node->parent_;
+
+		child->right_ = node;
+		//修改node节点的父节点
+		node->parent_ = child;
+	}
 	//插入后进行调整
 	void fixAfterInsert(Node* node)
 	{
@@ -140,80 +214,6 @@ private:
 		setColor(root_, BLACK);
 	}
 public:
-	//在递归操作中只需要3行代码，旋转后的根节点与父亲节点的连接是在递归回溯时完成的，非递归操作需要加更多代码
-	//左旋转操作-非递归
-	void leftRotate(Node* node)
-	{
-		Node* child = node->right_;
-		node->right_ = child->left_;
-
-		//修改左孩子的父节点指针指向
-		if (child->left_ != nullptr)
-		{
-			child->left_->parent_ = node;
-		}
-
-		//旋转后的根节点与父节点连接
-		if (node->parent_ == nullptr)
-		{
-			root_ = child;
-		}
-		else
-		{
-			//判断node是在父节点的左或右子树
-			if (node->parent_->left_ == node)
-			{
-				node->parent_->left_ = child;
-			}
-			else 
-			{
-				node->parent_->right_ = child;
-			}
-		}
-		//修改child节点的父节点
-		child->parent_ = node->parent_;
-
-		child->left_ = node;
-		//修改node节点的父节点
-		node->parent_ = child;
-	}
-	//右旋转操作-非递归
-	void rightRotate(Node* node)
-	{
-		Node* child = node->left_;
-		node->left_ = child->right_;
-
-		//child右孩子连接关系发生改变，修正其父节点指针
-		if (child->right_ != nullptr)
-		{
-			child->right_->parent_ = node;
-		}
-
-		// 旋转后的根节点与父节点连接
-		if (node->parent_ == nullptr)
-		{
-			root_ = child;
-		}
-		else 
-		{
-			//判断node是在父节点的左或右子树
-			if (node->parent_->left_ == node)
-			{
-				node->parent_->left_ = child;
-			}
-			else 
-			{
-				node->parent_->right_ = child;
-			}
-		}
-
-		//child节点连接关系发生改变，修正其父节点指针
-		child->parent_ = node->parent_;
-
-		child->right_ = node;
-		//修改node节点的父节点
-		node->parent_ = child;
-	}
 	//插入操作-非递归
 	void insert(const T val)
 	{
@@ -252,6 +252,7 @@ public:
 		{
 			parent->right_ = node;
 		}
+		node->parent_ = parent;
 
 		//插入后，如果违反[不红红]，进行调整
 		if (RED == getColor(parent))
