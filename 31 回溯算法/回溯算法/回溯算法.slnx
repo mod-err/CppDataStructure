@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="回溯算法.vcxproj" Id="4bb8e384-23a1-4dad-9754-d068dd6a0ef2" />
+</Solution>
