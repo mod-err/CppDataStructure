@@ -20,7 +20,7 @@ helloworld
 hlweorod
 */
 
-//分治算法
+//分治算法：存在大量重复子问题的计算，递归次数过多985次
 int cnt = 0;
 
 int LCS(string X, int n, string Y, int m)
