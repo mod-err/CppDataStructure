@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="动态规划算法.vcxproj" />
+  <Project Path="动态规划算法.vcxproj" Id="ffc063d0-3a23-4224-a6fe-d10f056edec0" />
 </Solution>
