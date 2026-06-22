@@ -30,5 +30,8 @@
     <ClCompile Include="求两个序列最长公共子序列.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="求两个序列最长公共子序列-非递归.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

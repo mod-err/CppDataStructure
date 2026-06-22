@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClCompile Include="斐波那契数列.cpp" />
     <ClCompile Include="最大子段和.cpp" />
+    <ClCompile Include="求两个序列最长公共子序列-非递归.cpp" />
     <ClCompile Include="求两个序列最长公共子序列.cpp" />
     <ClCompile Include="求非降子序列长度.cpp" />
     <ClCompile Include="硬币选择问题.cpp" />
