@@ -18,25 +18,10 @@
     <ClCompile Include="硬币选择问题.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="斐波那契数列.cpp">
+    <ClCompile Include="部分背包问题.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="最大子段和.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="求非降子序列长度.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="求两个序列最长公共子序列.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="求两个序列最长公共子序列-非递归.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="01背包问题.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="三角数组求和.cpp">
+    <ClCompile Include="柜台服务问题.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

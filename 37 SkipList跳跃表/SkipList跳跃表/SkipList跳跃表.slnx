@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SkipList跳跃表.vcxproj" Id="7bf1d1c0-45bc-49a3-ba3c-7acdf8fc6224" />
+</Solution>
