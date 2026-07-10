@@ -15,17 +15,8 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="图.cpp">
+    <ClCompile Include="并查集和最小生成树.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Dijkstra.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Floyd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="data.txt" />
   </ItemGroup>
 </Project>

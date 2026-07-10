@@ -67,6 +67,7 @@ int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 }
 #endif
 
+#if 0
 //迪杰斯特拉算法-优化
 int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 {
@@ -79,7 +80,6 @@ int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 	//把start放入S集合
 	use[start] = true;
 
-	//初始化start到其他U集合顶点权值 
 	/*
 		原时间复杂度 O(n) * O(2n) = O(n ^ 2)
 		修改后：
@@ -94,10 +94,16 @@ int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 	//小根堆，插入时间复杂度O(logn)
 	priority_queue<node, container, compare> que;
 
+	//初始化start到其他U集合顶点权值 
 	for (int i = 0; i < N; i++)
 	{
 		dis[i] = graph[start][i];
-		que.emplace(dis[i], i);
+		//把除start顶点的其它顶点全部放入U集合小根堆中
+		if (i != start)
+		{
+			que.emplace(dis[i], i);
+		}
+		
 	}
 
 	//把U集合中顶点处理完
@@ -109,7 +115,8 @@ int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 
 		min = que.top().first;
 		k = que.top().second;
-
+		//找到后放入S集合，所以要出队
+		que.pop();
 		//k仍然等于-1说明U集合中没有元素了
 		if (k == -1)
 		{
@@ -117,12 +124,14 @@ int Dijkstra(vector<vector<uint>>& graph, int start, int end)
 		}
 		//把选中的顶点加入到S集合中
 		use[k] = true;
+
 		//把U集合中剩余顶点权值信息更新
 		for (int j = 0; j < N; j++)
 		{
 			if (use[j] == false && dis[j] > min + graph[k][j])
 			{
 				dis[j] = min + graph[k][j];
+				que.emplace(dis[j], j);
 			}
 		}
 	}
@@ -147,5 +156,6 @@ int main()
 		{INF, INF, INF, 3, 5, 0}
 	};
 
-	int distance = Dijkstra(graph, 3, 5);
+	int distance = Dijkstra(graph, 0, 5);
 }
+#endif
