@@ -18,5 +18,14 @@
     <ClCompile Include="并查集和最小生成树.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Kruskal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="躲避拥堵的最佳路线.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="graph.txt" />
   </ItemGroup>
 </Project>

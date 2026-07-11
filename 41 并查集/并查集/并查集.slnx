@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="并查集.vcxproj" />
+  <Project Path="并查集.vcxproj" Id="219968bb-c8bf-4498-ab8e-fb9684c4d0f9" />
 </Solution>

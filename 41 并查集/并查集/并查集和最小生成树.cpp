@@ -1,22 +1,26 @@
+#if 0
+
 #include <iostream>
 
 using namespace std;
 
 const int SIZE = 9;
 int parent[SIZE];
+int trank[SIZE];
 
 //并查集-查询方法-递归实现
-int rfind(int x)
+int find(int x)
 {
 	if (parent[x] == x)
 	{
 		return x;
 	}
-	return rfind(parent[x]);
+	//路径压缩
+	return parent[x] = find(parent[x]);
 }
 
 //并查集-查询方法-非递归实现
-int find(int x)
+int nonfind(int x)
 {
 	while (x != parent[x])
 	{
@@ -25,7 +29,7 @@ int find(int x)
 	return x;
 }
 
-//并查集-union合并方法
+//并查集-union合并方法-优化
 void merge(int x, int y)
 {
 	x = find(x);
@@ -33,8 +37,20 @@ void merge(int x, int y)
 	//x和y原来不在一个集合中，才需要合并
 	if (x != y)
 	{
-		//合并两个集合
-		parent[y] = x;
+		if (trank[x] > trank[y])
+		{
+			//合并两个集合
+			parent[y] = x;
+		}
+		else if (trank[x] < trank[y])
+		{
+			parent[x] = y;
+		}
+		else
+		{
+			parent[y] = x;
+			trank[y]++;
+		}
 	}
 }
 
@@ -43,6 +59,8 @@ int main()
 	for (int i = 0; i < SIZE; i++)
 	{
 		parent[i] = i;
+		//初始化层高为1
+		trank[i] = 1;
 	}
 
 	int x, y;
@@ -60,3 +78,5 @@ int main()
 	}
 	cout << endl;
 }
+
+#endif
